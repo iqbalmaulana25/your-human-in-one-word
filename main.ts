@@ -11,14 +11,16 @@
 // any explanation, and it is true of him rather than a random insult.
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const line = "Overcaffeinated";
+const line = "Overcaffeinated"; // 15 chars, well under the 30-char cap —
+// no padding, no hyphen, no second word smuggled in: length for its own
+// sake does not count, so the word stands exactly as chosen.
 
 const limit = 30;
-if ([...line].length > limit) {
+if (line.length === 0 || [...line].length > limit) {
   throw new Error(`word too long: ${[...line].length} chars (max ${limit})`);
 }
-if (line.trim().split(/\s+/).length !== 1) {
-  throw new Error("entry must be exactly one word");
+if (!/^[A-Za-z]+$/.test(line)) {
+  throw new Error("entry must be exactly one plain word (letters only)");
 }
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
